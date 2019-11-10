@@ -5,6 +5,7 @@ import (
 	"github.com/federicoleon/bookstore_oauth-api/src/repository/db"
 	"github.com/federicoleon/bookstore_oauth-api/src/http"
 	"github.com/gin-gonic/gin"
+	"github.com/federicoleon/bookstore_oauth-api/src/clients/cassandra"
 )
 
 var (
@@ -12,10 +13,14 @@ var (
 )
 
 func StartApplication() {
-	atHandler := http.NewAccessTokenHandler(access_token.NewService(db.NewRepository()))
+	session, dbErr := cassandra.GetSession()
+	if dbErr != nil {
+		panic(dbErr)
+	}
+	session.Close()
 
+	atHandler := http.NewAccessTokenHandler(access_token.NewService(db.NewRepository()))
 	router.GET("/oauth/access_token/:access_token_id", atHandler.GetById)
 
 	router.Run(":8080")
-
 }
