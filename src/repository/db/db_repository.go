@@ -1,11 +1,11 @@
 package db
 
 import (
+	"errors"
+	"github.com/federicoleon/bookstore_oauth-api/src/clients/cassandra"
 	"github.com/federicoleon/bookstore_oauth-api/src/domain/access_token"
 	"github.com/federicoleon/bookstore_utils-go/rest_errors"
-	"github.com/federicoleon/bookstore_oauth-api/src/clients/cassandra"
 	"github.com/gocql/gocql"
-	"errors"
 )
 
 const (
